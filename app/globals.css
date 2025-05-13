@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Leaflet popup stilini düzelt */
+.leaflet-popup-content-wrapper {
+  background-color: #1f2937;
+  color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.leaflet-popup-tip {
+  background-color: #1f2937;
+}
+
+.leaflet-popup-content {
+  padding: 0.5rem;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* Zoom kontrollerini header'ın altına yerleştir */
+.leaflet-control-zoom {
+  margin-top: 70px !important;
+}
+
+/* Header'ın altında kalan içeriği düzelt */
+.leaflet-control-attribution {
+  z-index: 500;
+}

@@ -38,3 +38,20 @@ body {
 .leaflet-control-attribution {
   z-index: 500;
 }
+
+/* Ağaç ikonları için stil */
+.tree-icon {
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* Mobil cihazlar için ek düzeltmeler */
+@media (max-width: 768px) {
+  .tree-icon {
+    width: 30px !important;
+    height: 30px !important;
+    margin-left: -15px !important;
+    margin-top: -30px !important;
+  }
+}

@@ -26,7 +26,33 @@ function MapCenter() {
 
 export default function CampusMap() {
   const [hoveredTree, setHoveredTree] = useState<TreeType | null>(null)
+  const [imagesLoaded, setImagesLoaded] = useState(false)
   const mapRef = useRef(null)
+
+  // Görsellerin önceden yüklenmesini sağla
+  useEffect(() => {
+    const preloadImages = async () => {
+      try {
+        const imagePromises = treeData.map((tree) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image()
+            img.onload = () => resolve(true)
+            img.onerror = () => reject(new Error(`Failed to load image: ${tree.imageFile}`))
+            img.src = `/images/${tree.imageFile}`
+          })
+        })
+
+        await Promise.all(imagePromises)
+        setImagesLoaded(true)
+      } catch (error) {
+        console.error("Error preloading images:", error)
+        // Hata durumunda da devam et
+        setImagesLoaded(true)
+      }
+    }
+
+    preloadImages()
+  }, [])
 
   // Leaflet icon için varsayılan ikonun yolunu düzeltmek için
   useEffect(() => {
@@ -40,11 +66,16 @@ export default function CampusMap() {
 
   // Ağaç ikonları için özel ikon oluşturma
   const createTreeIcon = (imageFile: string) => {
+    // Tam URL oluştur
+    const imageUrl = new URL(`/images/${imageFile}`, window.location.origin).href
+
     return new Icon({
-      iconUrl: `/images/${imageFile}`,
+      iconUrl: imageUrl,
       iconSize: [40, 40],
       iconAnchor: [20, 40],
       popupAnchor: [0, -40],
+      // Hata durumunda yedek ikon
+      className: "tree-icon",
     })
   }
 

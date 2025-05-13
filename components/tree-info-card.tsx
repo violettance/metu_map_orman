@@ -16,8 +16,22 @@ export function TreeInfoCard({ tree }: TreeInfoCardProps) {
     <div className="bg-gray-900 bg-opacity-90 text-white rounded-lg shadow-lg overflow-hidden border border-green-500 animate-in fade-in slide-in-from-right-5 duration-300">
       <div className="p-4">
         <div className="flex items-center gap-3">
-          <div className="w-16 h-16">
-            <img src={`/images/${tree.imageFile}`} alt={tree.name} className="w-full h-full object-contain" />
+          <div className="w-16 h-16 relative">
+            <img
+              src={`${window.location.origin}/images/${tree.imageFile}`}
+              alt={tree.name}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                // Hata durumunda yedek görsel göster
+                e.currentTarget.src = `${window.location.origin}/images/fallback-tree.png`
+                // Yedek görsel de yüklenmezse, hata mesajı göster
+                e.currentTarget.onerror = () => {
+                  e.currentTarget.style.display = "none"
+                  e.currentTarget.parentElement!.innerHTML =
+                    `<div class="flex items-center justify-center w-full h-full bg-gray-800 text-white rounded-md"><span>${tree.name}</span></div>`
+                }
+              }}
+            />
           </div>
           <div>
             <h3 className="text-xl font-bold text-green-400">{tree.name}</h3>
